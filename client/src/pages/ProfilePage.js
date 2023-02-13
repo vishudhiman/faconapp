@@ -135,7 +135,7 @@ const ProfilePage = ({ history }) => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file);
     setUploading(true);
     try {
       const config = {
@@ -145,7 +145,7 @@ const ProfilePage = ({ history }) => {
       };
 
       const { data } = await axios.post("/api/upload", formData, config);
-      setAvatar(data);
+      setAvatar(data.secure_url);
       dispatch(
         updateUserProfile({
           id: user.id,

@@ -111,7 +111,7 @@ const ProductEditPage = ({ match, history }) => {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file);
     setUploading(true);
     try {
       const config = {
@@ -121,7 +121,7 @@ const ProductEditPage = ({ match, history }) => {
       };
 
       const { data } = await axios.post("/api/upload", formData, config);
-      setImage(data);
+      setImage(data.secure_url);
       setUploading(false);
     } catch (error) {
       setErrorImageUpload("Please choose a valid image");

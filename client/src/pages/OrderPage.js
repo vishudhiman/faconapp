@@ -76,7 +76,7 @@ const [image, setImage] = useState(null);
 const handleFileUpload = async (e) => {
   const file = e.target.files[0];
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("file", file);
   try {
     const config = {
       headers: {
@@ -84,7 +84,7 @@ const handleFileUpload = async (e) => {
       },
     };
     const { data } = await axios.post("/api/upload", formData, config);
-    setImage(data);
+    setImage(data.secure_url);
 } catch (error) {
     console.error(error);
   }
