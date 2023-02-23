@@ -8,6 +8,7 @@ import {
   getAllOrders,
   stripePayment,
   paytmPayment,
+  updateOrderToShipped,
 } from "../controllers/orderController.js";
 import { protectRoute, isAdmin } from "../middleware/authMiddleware.js";
 
@@ -41,6 +42,11 @@ router.route("/:id").get(protectRoute, getOrderById);
 // @route PUT /api/orders/:id/pay
 // @access PRIVATE
 router.route("/:id/pay").put(protectRoute, updateOrderToPay);
+
+// @desc  update the order object once Shipped
+// @route PUT /api/orders/:id/shipped
+// @access PRIVATE/ADMIN
+router.route("/:id/ship").put(protectRoute, isAdmin, updateOrderToShipped);
 
 // @desc  update the order object once delivered
 // @route PUT /api/orders/:id/pay

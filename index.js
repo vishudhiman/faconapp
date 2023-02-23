@@ -26,9 +26,9 @@ connectDB();
 
 
 app.use(express.json()); // middleware to use req.body
-app.use(cors({
-  origin : ["http://localhost:3000"]
-})); // to avoid CORS errors
+// app.use(cors({
+//   origin : ["http://localhost:3000"]
+// })); // to avoid CORS errors
 app.use(compression()); // to use gzip)
 
 //configure all the routes
@@ -37,18 +37,12 @@ app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
 
-// app.get('/api/config/paypal', (req, res) =>
-//   res.send(process.env.PAYPAL_CLIENT_ID)
-// )
-
-const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
-
+//static files
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/build')))
+  app.use(express.static(path.join(__dirname, '/client/build')))
 
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   )
 } else {
   app.get('/', (req, res) => {
