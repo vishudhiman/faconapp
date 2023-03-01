@@ -9,6 +9,8 @@ import {
   stripePayment,
   paytmPayment,
   updateOrderToShipped,
+  updateOrderToReturn,
+  returnConfirmed,
 } from "../controllers/orderController.js";
 import { protectRoute, isAdmin } from "../middleware/authMiddleware.js";
 
@@ -36,7 +38,9 @@ router.route("/paytm-payment").post(paytmPayment);
 // @desc  get an order by id
 // @route GET /api/orders/:id
 // @access PRIVATE
-router.route("/:id").get(protectRoute, getOrderById);
+router
+  .route("/:id")
+  .get(protectRoute, getOrderById);
 
 // @desc  update the order object once paid
 // @route PUT /api/orders/:id/pay
@@ -49,8 +53,21 @@ router.route("/:id/pay").put(protectRoute, updateOrderToPay);
 router.route("/:id/ship").put(protectRoute, isAdmin, updateOrderToShipped);
 
 // @desc  update the order object once delivered
-// @route PUT /api/orders/:id/pay
+// @route PUT /api/orders/:id/deliver
 // @access PRIVATE/ADMIN
 router.route("/:id/deliver").put(protectRoute, isAdmin, updateOrderToDeliver);
+
+// @desc  update the order to return requested
+// @route PUT /api/orders/:id/return
+// @access PRIVATE
+router.route("/:id/return").put(protectRoute, updateOrderToReturn);
+
+// @desc  update the order to return request confirmed
+// @route PUT /api/orders/:id/returnConfirmed
+// @access PRIVATE/ADMIN
+router
+  .route("/:id/confirm-return")
+  .put(protectRoute, isAdmin, returnConfirmed);
+
 
 export default router;
