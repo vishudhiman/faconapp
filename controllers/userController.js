@@ -69,7 +69,7 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     // update whicever field was sent in the rquest body
     user.name = req.body.name || user.name;
-    user.isConfirmed = req.body.email === user.email;
+    // user.isConfirmed = req.body.email === user.email;
     user.email = req.body.email || user.email;
     user.isAdmin = req.body.isAdmin;
     const updatedUser = await user.save();
@@ -79,7 +79,7 @@ const updateUser = asyncHandler(async (req, res) => {
         email: updatedUser.email,
         name: updatedUser.name,
         isAdmin: updatedUser.isAdmin,
-        isConfirmed: updatedUser.isConfirmed,
+        // isConfirmed: updatedUser.isConfirmed,
       });
     }
   } else {
@@ -118,7 +118,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       name: user.name,
       isAdmin: user.isAdmin,
-      isConfirmed: user.isConfirmed,
+      // isConfirmed: user.isConfirmed,
       avatar: user.avatar,
       accessToken,
       refreshToken,
@@ -155,7 +155,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // if user was created successfully
   if (user) {
     // send a mail for email verification of the newly registred email id
-    await sendMail(user._id, email, "email verification");
+    // await sendMail(user._id, email, "email verification");
 
     const refreshToken = generateToken(user._id, "refresh");
     res.status(201).json({
@@ -164,7 +164,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       avatar,
       isAdmin: user.isAdmin,
-      isConfirmed: user.isConfirmed,
+      // isConfirmed: user.isConfirmed,
       accessToken: generateToken(user._id, "access"),
       refreshToken,
     });
@@ -177,136 +177,136 @@ const registerUser = asyncHandler(async (req, res) => {
 // @desc send a mail with the link to verify mail
 // @route POST /api/users/confirm
 // @access PUBLIC
-const mailForEmailVerification = asyncHandler(async (req, res) => {
-  try {
-    const { email } = req.body;
+// const mailForEmailVerification = asyncHandler(async (req, res) => {
+//   try {
+//     const { email } = req.body;
 
-    const user = await User.findOne({ email });
-    // console.log(user);
-    if (user) {
-      // send a verification email, if this user is not a confirmed email
-      if (!user.isConfirmed) {
-        // send the mail
-        await sendMail(user._id, email, "email verification");
-        res.status(201).json({
-          id: user._id,
-          email: user.email,
-          name: user.name,
-          isAdmin: user.isAdmin,
-          avatar: user.avatar,
-          isConfirmed: user.isConfirmed,
-        });
-      } else {
-        res.status(400);
-        throw new Error("User already confirmed");
-      }
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(401);
-    throw new Error("Could not send the mail. Please retry.");
-  }
-});
+//     const user = await User.findOne({ email });
+//     // console.log(user);
+//     if (user) {
+//       // send a verification email, if this user is not a confirmed email
+//       if (!user.isConfirmed) {
+//         // send the mail
+//         await sendMail(user._id, email, "email verification");
+//         res.status(201).json({
+//           id: user._id,
+//           email: user.email,
+//           name: user.name,
+//           isAdmin: user.isAdmin,
+//           avatar: user.avatar,
+//           isConfirmed: user.isConfirmed,
+//         });
+//       } else {
+//         res.status(400);
+//         throw new Error("User already confirmed");
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401);
+//     throw new Error("Could not send the mail. Please retry.");
+//   }
+// });
 
 // @desc send a mail with the link to reset password
 // @route POST /api/users/reset
 // @access PUBLIC
-const mailForPasswordReset = asyncHandler(async (req, res) => {
-  try {
-    const { email } = req.body;
+// const mailForPasswordReset = asyncHandler(async (req, res) => {
+//   try {
+//     const { email } = req.body;
 
-    const user = await User.findOne({ email });
+//     const user = await User.findOne({ email });
 
-    // send a link to reset password only if it's a confirmed account
-    if (user && user.isConfirmed) {
-      // send the mail and return the user details
+//     // send a link to reset password only if it's a confirmed account
+//     if (user && user.isConfirmed) {
+//       // send the mail and return the user details
 
-      // the sendMail util function takes a 3rd argument to indicate what type of mail to send
-      await sendMail(user._id, email, "forgot password");
+//       // the sendMail util function takes a 3rd argument to indicate what type of mail to send
+//       await sendMail(user._id, email, "forgot password");
 
-      res.status(201).json({
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        isAdmin: user.isAdmin,
-        avatar: user.avatar,
-        isConfirmed: user.isConfirmed,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(401);
-    throw new Error("Could not send the mail. Please retry.");
-  }
-});
+//       res.status(201).json({
+//         id: user._id,
+//         email: user.email,
+//         name: user.name,
+//         isAdmin: user.isAdmin,
+//         avatar: user.avatar,
+//         isConfirmed: user.isConfirmed,
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401);
+//     throw new Error("Could not send the mail. Please retry.");
+//   }
+// });
 
 // @desc reset password of any verified user
 // @route PUT /api/users/reset
 // @access PUBLIC
-const resetUserPassword = asyncHandler(async (req, res) => {
-  try {
-    // update the user password if the jwt is verified successfully
-    const { passwordToken, password } = req.body;
-    const decodedToken = jwt.verify(
-      passwordToken,
-      process.env.JWT_FORGOT_PASSWORD_TOKEN_SECRET
-    );
-    const user = await User.findById(decodedToken.id);
+// const resetUserPassword = asyncHandler(async (req, res) => {
+//   try {
+//     // update the user password if the jwt is verified successfully
+//     const { passwordToken, password } = req.body;
+//     const decodedToken = jwt.verify(
+//       passwordToken,
+//       process.env.JWT_FORGOT_PASSWORD_TOKEN_SECRET
+//     );
+//     const user = await User.findById(decodedToken.id);
 
-    if (user && password) {
-      user.password = password;
-      const updatedUser = await user.save();
+//     if (user && password) {
+//       user.password = password;
+//       const updatedUser = await user.save();
 
-      if (updatedUser) {
-        res.status(200).json({
-          id: updatedUser._id,
-          email: updatedUser.email,
-          name: updatedUser.name,
-          avatar: updatedUser.avatar,
-          isAdmin: updatedUser.isAdmin,
-        });
-      } else {
-        res.status(401);
-        throw new Error("Unable to update password");
-      }
-    }
-  } catch (error) {
-    res.status(400);
-    throw new Error("User not found.");
-  }
-});
+//       if (updatedUser) {
+//         res.status(200).json({
+//           id: updatedUser._id,
+//           email: updatedUser.email,
+//           name: updatedUser.name,
+//           avatar: updatedUser.avatar,
+//           isAdmin: updatedUser.isAdmin,
+//         });
+//       } else {
+//         res.status(401);
+//         throw new Error("Unable to update password");
+//       }
+//     }
+//   } catch (error) {
+//     res.status(400);
+//     throw new Error("User not found.");
+//   }
+// });
 
 // @desc confirm the email address of the registered user
 // @route GET /api/users/confirm
 // @access PUBLIC
-const confirmUser = asyncHandler(async (req, res) => {
-  try {
-    // set the user to a confirmed status, once the corresponding JWT is verified correctly
-    const emailToken = req.params.token;
-    const decodedToken = jwt.verify(
-      emailToken,
-      process.env.JWT_EMAIL_TOKEN_SECRET
-    );
-    const user = await User.findById(decodedToken.id).select("-password");
-    user.isConfirmed = true;
-    const updatedUser = await user.save();
-    const foundToken = await Token.findOne({ email: updatedUser.email }); // send the refresh token that was stored
-    res.json({
-      id: updatedUser._id,
-      email: updatedUser.email,
-      name: updatedUser.name,
-      isAdmin: updatedUser.isAdmin,
-      avatar: updatedUser.avatar,
-      isConfirmed: updatedUser.isConfirmed,
-      accessToken: generateToken(user._id, "access"),
-      refreshToken: foundToken,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(401);
-    throw new Error("Not authorised. Token failed");
-  }
-});
+// const confirmUser = asyncHandler(async (req, res) => {
+//   try {
+//     // set the user to a confirmed status, once the corresponding JWT is verified correctly
+//     const emailToken = req.params.token;
+//     const decodedToken = jwt.verify(
+//       emailToken,
+//       process.env.JWT_EMAIL_TOKEN_SECRET
+//     );
+//     const user = await User.findById(decodedToken.id).select("-password");
+//     user.isConfirmed = true;
+//     const updatedUser = await user.save();
+//     const foundToken = await Token.findOne({ email: updatedUser.email }); // send the refresh token that was stored
+//     res.json({
+//       id: updatedUser._id,
+//       email: updatedUser.email,
+//       name: updatedUser.name,
+//       isAdmin: updatedUser.isAdmin,
+//       avatar: updatedUser.avatar,
+//       isConfirmed: updatedUser.isConfirmed,
+//       accessToken: generateToken(user._id, "access"),
+//       refreshToken: foundToken,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401);
+//     throw new Error("Not authorised. Token failed");
+//   }
+// });
 
 // @desc obtain new access tokens using the refresh tokens
 // @route GET /api/users/refresh
@@ -354,7 +354,6 @@ const getUserData = asyncHandler(async (req, res) => {
       name: user.name,
       avatar: user.avatar,
       isAdmin: user.isAdmin,
-      isConfirmed: user.isConfirmed,
     });
   } else {
     res.status(400);
@@ -390,7 +389,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.avatar = req.body.avatar || user.avatar;
-    if (req.body.email) user.isConfirmed = req.body.email === user.email;
+    if (req.body.email) user.email = req.body.email || user.email;
     user.email = req.body.email || user.email;
     if (req.body.password) {
       user.password = req.body.password;
@@ -417,10 +416,10 @@ export {
   getUserData,
   getAccessToken,
   registerUser,
-  confirmUser,
-  mailForEmailVerification,
-  mailForPasswordReset,
-  resetUserPassword,
+  // confirmUser,
+  // mailForEmailVerification,
+  // mailForPasswordReset,
+  // resetUserPassword,
   updateUserProfile,
   getAllUsers,
   deleteUser,

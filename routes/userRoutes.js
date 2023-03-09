@@ -5,10 +5,10 @@ import {
   getUserData,
   getAccessToken,
   registerUser,
-  confirmUser,
-  mailForEmailVerification,
-  mailForPasswordReset,
-  resetUserPassword,
+  // confirmUser,
+  // mailForEmailVerification,
+  // mailForPasswordReset,
+  // resetUserPassword,
   updateUserProfile,
   getAllUsers,
   deleteUser,
@@ -32,12 +32,12 @@ router.route("/login").post(authUser);
 // @desc confirm the email address of the registered user
 // @route GET /api/users/confirm
 // @access PUBLIC
-router.route("/confirm/:token").get(confirmUser);
+// router.route("/confirm/:token").get(confirmUser);
 
 // @desc send a mail with the link to verify mail, to be used if the user forgot to verify mail after registration
 // @route POST /api/users/confirm
 // @access PUBLIC
-router.route("/confirm").post(mailForEmailVerification);
+// router.route("/confirm").post(mailForEmailVerification);
 
 // @desc send a mail with the link to reset password
 // @route POST /api/users/reset
@@ -46,7 +46,7 @@ router.route("/confirm").post(mailForEmailVerification);
 // @route PUT /api/users/reset
 
 // @access PUBLIC
-router.route("/reset").post(mailForPasswordReset).put(resetUserPassword);
+// router.route("/reset").post(mailForPasswordReset).put(resetUserPassword);
 
 // @desc obtain new access tokens using the refresh tokens
 // @route GET /api/users/refresh
