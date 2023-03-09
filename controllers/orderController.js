@@ -170,11 +170,12 @@ const updateOrderToReturn = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id/returnConfirmed
 // @access  Private/Admin
 const returnConfirmed = asyncHandler(async (req, res) => {
+  const { returnAddress } = req.body;
   const order = await Order.findById(req.params.id);
-
   if (order) {
     order.isreturnConfirmed = true;
     order.returnConfirmedAt = Date.now();
+    order.returnAddress = returnAddress;
 
     const updatedOrder = await order.save();
 
