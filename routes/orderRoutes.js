@@ -11,6 +11,7 @@ import {
   updateOrderToShipped,
   updateOrderToReturn,
   returnConfirmed,
+  updateOrderToConfirm,
 } from "../controllers/orderController.js";
 import { protectRoute, isAdmin } from "../middleware/authMiddleware.js";
 
@@ -46,6 +47,11 @@ router
 // @route PUT /api/orders/:id/pay
 // @access PRIVATE
 router.route("/:id/pay").put(protectRoute, updateOrderToPay);
+
+// @desc  update the order object once Payment Confirmed
+// @route PUT /api/orders/:id/confirmed
+// @access PRIVATE/ADMIN
+router.route("/:id/confirm").put(protectRoute, isAdmin, updateOrderToConfirm);
 
 // @desc  update the order object once Shipped
 // @route PUT /api/orders/:id/shipped
