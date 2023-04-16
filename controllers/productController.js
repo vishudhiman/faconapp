@@ -61,6 +61,7 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample name",
     price: 0,
+    sellingPrice: 0,
     user: req.user._id,
     image:
       "https://res.cloudinary.com/dsj8hlygt/image/upload/v1676272997/sample_suhzzn.jpg",
@@ -71,8 +72,10 @@ const createProduct = asyncHandler(async (req, res) => {
     brand: "Sample brand",
     category: "Sample category",
     countInStock: 0,
-    numReviews: 2,
+    numReviews: 0,
+    sizesAvailable : [], //pass in an array of sizes
     description: 'Sample description',
+    dealer: 'Sample dealer',
   })
 
   const createdProduct = await product.save();
@@ -92,6 +95,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     brand,
     category,
     countInStock,
+    numReviews,
+    sizesAvailable,
+    dealer,
+    sellingPrice
   } = req.body;
 
   const product = await Product.findById(req.params.id);
@@ -99,12 +106,16 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (product) {
     product.name = name;
     product.price = price;
+    product.sellingPrice = sellingPrice;
     product.description = description;
     product.image = image;
     product.images = images;
     product.brand = brand;
     product.category = category;
     product.countInStock = countInStock;
+    product.numReviews = numReviews;
+    product.sizesAvailable = sizesAvailable;
+    product.dealer = dealer;
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
