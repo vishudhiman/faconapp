@@ -122,6 +122,27 @@ const updateOrderToConfirm = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update order to NotConfirmed
+// @route   GET /api/orders/:id/notConfirmed
+// @access  Private/Admin
+const updateOrderToNotConfirm = asyncHandler(async (req, res) => {
+  const { reason } = req.body;
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.isConfirmed = false;
+    order.reason = reason;
+
+    const updatedOrder = await order.save();
+
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
+
 
 // @desc    Update order to Shipped
 // @route   GET /api/orders/:id/shipped
@@ -334,5 +355,6 @@ export {
   paytmPayment,
   updateOrderToReturn,
   returnConfirmed,
-  updateOrderToConfirm
+  updateOrderToConfirm,
+  updateOrderToNotConfirm
 };
