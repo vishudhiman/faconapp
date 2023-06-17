@@ -67,6 +67,7 @@ const createProduct = asyncHandler(async (req, res) => {
     images: [],
     brand: "Sample brand",
     category: "Sample category",
+    subCategory: "Sample subCategory",
     countInStock: 0,
     numReviews: 0,
     sizesAvailable : [], //pass in an array of sizes
@@ -90,6 +91,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     images,
     brand,
     category,
+    subCategory,
     countInStock,
     numReviews,
     sizesAvailable,
@@ -107,6 +109,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.images = images;
     product.brand = brand;
     product.category = category;
+    product.subCategory = subCategory;
     product.countInStock = countInStock;
     product.numReviews = numReviews;
     product.sizesAvailable = sizesAvailable;
