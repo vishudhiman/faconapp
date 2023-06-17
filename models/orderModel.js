@@ -101,6 +101,9 @@ const orderSchema = mongoose.Schema(
     returnAddress: {
       type: String,
     },
+    reason:{
+      type: String,
+    },
     returnResult: {
       id: { type: String },
       videoUrl: { type: String },
