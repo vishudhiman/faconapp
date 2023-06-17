@@ -63,12 +63,8 @@ const createProduct = asyncHandler(async (req, res) => {
     price: 0,
     sellingPrice: 0,
     user: req.user._id,
-    image:
-      "https://res.cloudinary.com/dsj8hlygt/image/upload/v1676272997/sample_suhzzn.jpg",
     //pass in an array of images
-    images: [
-      "https://res.cloudinary.com/dsj8hlygt/image/upload/v1676272997/sample_suhzzn.jpg",
-    ],
+    images: [],
     brand: "Sample brand",
     category: "Sample category",
     countInStock: 0,
@@ -108,7 +104,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.price = price;
     product.sellingPrice = sellingPrice;
     product.description = description;
-    product.image = image;
     product.images = images;
     product.brand = brand;
     product.category = category;
