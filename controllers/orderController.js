@@ -57,7 +57,6 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-
 // @desc    Update order to paid
 // @route   GET /api/orders/:id/pay
 // @access  Private
@@ -107,12 +106,13 @@ const updateOrderToPay = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id/confirmed
 // @access  Private/Admin
 const updateOrderToConfirm = asyncHandler(async (req, res) => {
+  const { trackingID } = req.body;
   const order = await Order.findById(req.params.id);
 
   if (order) {
     order.isConfirmed = true;
     order.confirmedAt = Date.now();
-
+    order.trackingID = trackingID;
     const updatedOrder = await order.save();
 
     res.json(updatedOrder);
@@ -141,8 +141,6 @@ const updateOrderToNotConfirm = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 });
-
-
 
 // @desc    Update order to Shipped
 // @route   GET /api/orders/:id/shipped
@@ -356,5 +354,5 @@ export {
   updateOrderToReturn,
   returnConfirmed,
   updateOrderToConfirm,
-  updateOrderToNotConfirm
+  updateOrderToNotConfirm,
 };
