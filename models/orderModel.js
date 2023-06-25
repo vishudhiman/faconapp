@@ -66,6 +66,9 @@ const orderSchema = mongoose.Schema(
     confirmedAt: {
       type: Date,
     },
+    trackingID: {
+      type: String,
+    },
     isShipped: {
       type: Boolean,
       required: true,
@@ -101,7 +104,7 @@ const orderSchema = mongoose.Schema(
     returnAddress: {
       type: String,
     },
-    reason:{
+    reason: {
       type: String,
     },
     returnResult: {
